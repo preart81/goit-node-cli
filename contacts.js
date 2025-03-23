@@ -5,8 +5,13 @@ import path from "path";
 // шлях до файлу contacts.json
 const contactsPath = path.resolve("db", "contacts.json");
 
+/**
+ * Оновлює файл contacts.json новим масивом контактів.
+ *
+ * @param {Array} contacts масив контактів
+ * @returns {Promise<void>}
+ */
 async function updateContacts(contacts) {
-  // Оновлює файл contacts.json новим масивом контактів.
   await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
 }
 
@@ -16,17 +21,16 @@ async function updateContacts(contacts) {
  * @returns {Promise<Array>} Масив контактів
  */
 export async function listContacts() {
-  // Повертає масив контактів.
   const data = await fs.readFile(contactsPath, "utf-8");
   const contacts = JSON.parse(data);
   return contacts;
 }
 
 /**
- * Повертає об єкт контакту за ідентифікатором.
+ * Повертає об'єкт контакту за ідентифікатором.
  *
  * @param {string} contactId ідентифікатор контакту
- * @returns {Promise<{}>} об єкт контакту, якщо контакт з таким ідентифікатором існує, або null, якщо не існує
+ * @returns {Promise<{}>} об'єкт контакту, якщо контакт з таким ідентифікатором існує, або null, якщо не існує
  */
 export async function getContactById(contactId) {
   const contacts = await listContacts();
@@ -38,10 +42,9 @@ export async function getContactById(contactId) {
  * Видаляє контакт за ідентифікатором.
  *
  * @param {string} contactId ідентифікатор контакту
- * @returns {Promise<{}>} об єкт видаленого контакту, якщо контакт з таким id існує, або null, якщо не існує
+ * @returns {Promise<{}>} об'єкт видаленого контакту, якщо контакт з таким id існує, або null, якщо не існує
  */
 export async function removeContact(contactId) {
-  // Повертає об'єкт видаленого контакту. Повертає null, якщо контакт з таким id не знайдений.
   const contacts = await listContacts();
   const index = contacts.findIndex((contact) => contact.id === contactId);
   if (index === -1) {
@@ -61,7 +64,6 @@ export async function removeContact(contactId) {
  * @returns {Promise<Object>} Повертає об'єкт доданого контакту, що містить унікальний ідентифікатор
  */
 export async function addContact(name, email, phone) {
-  // Повертає об'єкт доданого контакту (з id).
   const contacts = await listContacts();
   const newContact = {
     id: nanoid(),
