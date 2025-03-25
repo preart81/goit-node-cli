@@ -18,46 +18,38 @@ async function invokeAction({ action, id, name, email, phone }) {
     case "list":
       // список всіх контактів
       const contacts = await listContacts();
-      console.log(contacts);
-      return;
+      console.table(contacts);
+      break;
 
     case "get":
       // об'єкт контакту за id
       if (!id) {
         console.warn(chalk.red("Missing id!"));
-        return;
+        break;
       }
       const contact = await getContactById(id);
-      if (!contact) {
-        console.warn(chalk.red("Contact not found!"));
-      } else {
-        console.log(contact);
-      }
-      return;
+      console.table(contact);
+      break;
 
     case "add":
       // створення нового контакту name email phone
       if (!(name || email || phone)) {
         console.warn(chalk.red("Missing required fields!"));
-        return;
+        break;
       }
       const newContact = await addContact(name, email, phone);
-      console.log("Contact added:", newContact);
-      return;
+      console.table(newContact);
+      break;
 
     case "remove":
       // видалення контакту за id
       if (!id) {
         console.warn(chalk.red("Missing id!"));
-        return;
+        break;
       }
       const removedContact = await removeContact(id);
-      if (!removedContact) {
-        console.warn(chalk.red("Contact not found!"));
-      } else {
-        console.log(chalk.red("Contact removed:"), removedContact);
-      }
-      return;
+      console.table(removedContact);
+      break;
 
     default:
       console.warn(chalk.red("Unknown action type!"));
